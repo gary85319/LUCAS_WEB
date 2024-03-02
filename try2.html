@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.4.0/p5.js"></script>
+  <script>
+    let size, posX, posY;
+
+function setup() {
+  size = min(displayWidth, displayHeight);
+  createCanvas(size, size);
+
+  posX = mouseX;
+  posY = mouseY;
+}
+
+function draw() {
+  background(220);
+  
+  // Dynamics
+  let targetX = mouseX + map(noise(frameCount * 0.01, 0), 0, 1, -1, 1) * size * 0.2;
+  let targetY = mouseY + map(noise(frameCount * 0.01, 1), 0, 1, -1, 1) * size * 0.2;
+
+  let speedX = (targetX - posX) * 0.07;
+  let speedY = (targetY - posY) * 0.07;
+  
+  posX += speedX;
+  posY += speedY;
+
+  // Quantization
+  let grid = size / 9;
+  let gridX = floor(posX / grid) * grid;
+  let gridY = floor(posY / grid) * grid;
+  
+  // Styling
+  strokeWeight(size * 0.02);
+  
+  // Legs
+  line(posX, posY, gridX, gridY);
+  line(posX, posY, gridX + grid, gridY);
+  line(posX, posY, gridX, gridY + grid);
+  line(posX, posY, gridX + grid, gridY + grid);
+  
+  // Body
+  circle(posX, posY, size * 0.06);
+}
+
+
+  
+    
+  </script>
+  <title>Interactive Canvas</title>
+  <style>
+    body {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+    }
+  </style>
+</head>
+<body>
+  
+</body>
+</html>
